@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Button } from '@material-ui/core';
 
-function Text({ promptText }) {
-    const { text, setText } = useState("none")
+function Login({ promptText }) {
+    const { text, setText } = useState("none");
 
 
     function getUserID() {
@@ -13,7 +13,7 @@ function Text({ promptText }) {
    
     return (
         <Button style={{ color: "white" }} onClick={() => getUserID()}>{promptText}</Button>
-        )
+    )
 }
 
-export default Text
+export default Login
