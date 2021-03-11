@@ -16,7 +16,24 @@
     "react-native-web": "~0.13.12"
   },
   "devDependencies": {
-    "@babel/core": "~7.9.0"
+    "@babel/core": "~7.9.0",
+    "lerna": "^4.0.0"
   },
-  "private": true
+  "private": true,
+  "name": "firebase",
+  "description": "This application will be able to manage all members of the Howard Alumni Association, as well as their unique membership ID’s. These ID’s will be their way of proving their membership, as well as their way of receiving any benefits Howard has to offer them. This app will allow any new or old graduates to join the association in real time. All members will have a shared calendar to stay up to date with Howard and any events. Members may be notified by push notifications if preferred.",
+  "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PenielA/HU_Alumni_Association.git"
+  },
+  "keywords": [
+    "hu_alumni_association"
+  ],
+  "author": "tahj",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PenielA/HU_Alumni_Association/issues"
+  },
+  "homepage": "https://github.com/PenielA/HU_Alumni_Association#readme"
 }
