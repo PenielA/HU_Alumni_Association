@@ -4,33 +4,12 @@ import "firebase/auth";
 import {
   FirebaseAuthProvider,
   FirebaseAuthConsumer,
-  IfFirebaseAuthed,
   IfFirebaseAuthedAnd
 } from "@react-firebase/auth";
 import { firebaseConfig } from "./firebaseConfig";
 import logo from './logo.svg';
 import './App.css';
 
-// function App() {
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <img src={logo} className="App-logo" alt="logo" />
-//         <p>
-//           Edit <code>src/App.js</code> and save to reload.
-//         </p>
-//         <a
-//           className="App-link"
-//           href="https://reactjs.org"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           Learn React
-//         </a>
-//       </header>
-//     </div>
-//   );
-// }
 export const App = () => {
   return (
     <FirebaseAuthProvider {...firebaseConfig} firebase={firebase}>
@@ -46,15 +25,6 @@ export const App = () => {
           >
             Sign In with Google
           </button>
-
-          {/* <button
-            data-testid="signin-anon"
-            onClick={() => {
-              firebase.auth().signInAnonymously();
-            }}
-          >
-            Sign In Anonymously
-          </button> */}
 
           <button
             onClick={() => {
@@ -75,6 +45,7 @@ export const App = () => {
           </FirebaseAuthConsumer>
 
           <div>
+          
             <IfFirebaseAuthedAnd
               filter={({ providerId }) => providerId !== "anonymous"}
             >
