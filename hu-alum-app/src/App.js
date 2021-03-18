@@ -1,5 +1,4 @@
 import * as React from "react";
-import "firebase/auth";
 import profile from "./pages/profile";
 import landing from "./pages/landing";
 import login from "./pages/login";
