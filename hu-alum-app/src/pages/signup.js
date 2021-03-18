@@ -3,13 +3,7 @@ import Button from "@material-ui/core/Button";
 import TextField from '@material-ui/core/TextField';
 import { makeStyles, fade } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
-import firebase from "firebase";
 import "firebase/auth";
-import {
-  FirebaseAuthProvider,
-  FirebaseAuthConsumer,
-  IfFirebaseAuthedAnd,
-} from "@react-firebase/auth";
 import { auth } from "../firebaseConfig";
 
 const useStyles = makeStyles((theme) => ({
@@ -44,7 +38,7 @@ function SignupPage() {
       
       var errorCode = error.code;
       var errorMessage = error.message;
-      console.log(error)
+      console.log(errorMessage)
       // ..
     });
   }
@@ -54,6 +48,7 @@ function SignupPage() {
       <header className="login-header">
         
         <form className={classes.root} noValidate autoComplete="off">
+
           <TextField required inputRef={emailRef} id="standard-basic" label="Email" />
           <br></br>
           <TextField required inputRef={passwordRef} id="standard-basic" label="Password" />
