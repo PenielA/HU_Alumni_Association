@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from '@material-ui/core/TextField';
 import { makeStyles, fade } from "@material-ui/core/styles";
@@ -10,7 +10,7 @@ import {
   FirebaseAuthConsumer,
   IfFirebaseAuthedAnd,
 } from "@react-firebase/auth";
-import { firebaseConfig } from "../firebaseConfig";
+import { auth } from "../firebaseConfig";
 
 const useStyles = makeStyles((theme) => ({
   Sbutton: {
@@ -28,24 +28,44 @@ const useStyles = makeStyles((theme) => ({
 
 function SignupPage() {
   const classes = useStyles();
+  const emailRef = useRef(null)
+  const passwordRef = useRef(null)
+
+  const signUp = e =>{
+    e.preventDefault();
+    auth.createUserWithEmailAndPassword(emailRef.current.value, passwordRef.current.value)
+    .then(userCredential => {
+      // Signed in 
+      console.log(userCredential)
+      // var user = userCredential.user;
+      // ...
+    })
+    .catch((error) => {
+      
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      console.log(error)
+      // ..
+    });
+  }
+
   return (
     <div className="App">
       <header className="login-header">
         
         <form className={classes.root} noValidate autoComplete="off">
-          <TextField required id="standard-basic" label="First Name" />
-          
-          <TextField required id="standard-basic" label="Last Name" />
+          <TextField required inputRef={emailRef} id="standard-basic" label="Email" />
           <br></br>
-          <TextField required id="standard-basic" label="Email" />
-          <TextField required id="standard-basic" label="Phone Number" />
-          <br></br>
-          <TextField required id="standard-basic" label="Password" />
+          <TextField required inputRef={passwordRef} id="standard-basic" label="Password" />
         </form>
         
         <div style={{ margin: "10px" }}>
           <Link style={{ textDecoration: "none" }}>
-            <Button variant="outlined">SIGN UP</Button>
+            <Button 
+              onClick={signUp}
+              variant="outlined">
+              SIGN UP
+            </Button>
           </Link>
         </div>
       </header>
