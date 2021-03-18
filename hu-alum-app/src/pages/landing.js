@@ -46,11 +46,14 @@ function Landing() {
   return (
     <div className="App">
       <header className="App-header">
+        
         <h1>HOWARD UNIVERSITY ALUMNI</h1>
         <img src={bison} className="App-logo" alt="logo" />
+        
         <Link to={{ pathname: "/login" }} style={{ textDecoration: "none" }}>
           <Button className={classes.Lbutton}>LOGIN</Button>
         </Link>
+        
         <Link to={{ pathname: "/signup" }} style={{ textDecoration: "none" }}>
           <Button className={classes.Sbutton} variant="outlined">
             SIGNUP

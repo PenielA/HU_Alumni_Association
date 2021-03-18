@@ -1,8 +1,17 @@
-import react from "react";
+import React from "react";
 import bison from "../bison.png";
 import Button from "@material-ui/core/Button";
+import TextField from '@material-ui/core/TextField';
 import { makeStyles, fade } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
+import firebase from "firebase";
+import "firebase/auth";
+import {
+  FirebaseAuthProvider,
+  FirebaseAuthConsumer,
+  IfFirebaseAuthedAnd,
+} from "@react-firebase/auth";
+import { firebaseConfig } from "../firebaseConfig";
 
 const useStyles = makeStyles((theme) => ({
   Sbutton: {
@@ -17,23 +26,21 @@ const useStyles = makeStyles((theme) => ({
     borderColor: fade("#395386", 0.5),
   },
 }));
+
 function LoginPage() {
   const classes = useStyles();
   return (
     <div className="App">
       <header className="login-header">
-        <img src={bison} />
-        <Link style={{ textDecoration: "none" }}>
-          <Button className={classes.Sbutton} variant="outlined">
-            ...
-          </Button>
-        </Link>
-        <Link style={{ textDecoration: "none" }}>
-          <Button className={classes.Sbutton} variant="outlined">
-            ...
-          </Button>
-        </Link>
-        <div>
+        {/* <img src={bison} /> */}
+        
+        <form className={classes.root} noValidate autoComplete="off">
+          <TextField required id="standard-basic" label="Email" />
+          <br></br>
+          <TextField required id="standard-basic" label="Password" />
+        </form>
+        
+        <div style={{ margin: "10px" }}>
           <Link style={{ textDecoration: "none" }}>
             <Button variant="outlined">LOGIN</Button>
           </Link>
