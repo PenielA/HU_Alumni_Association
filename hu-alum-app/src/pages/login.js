@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useRef} from "react";
 import bison from "../bison.png";
 import Button from "@material-ui/core/Button";
 import TextField from '@material-ui/core/TextField';
@@ -11,7 +11,7 @@ import {
   FirebaseAuthConsumer,
   IfFirebaseAuthedAnd,
 } from "@react-firebase/auth";
-import { firebaseConfig } from "../firebaseConfig";
+import { auth } from "../firebaseConfig";
 
 const useStyles = makeStyles((theme) => ({
   Sbutton: {
@@ -29,21 +29,43 @@ const useStyles = makeStyles((theme) => ({
 
 function LoginPage() {
   const classes = useStyles();
+  const emailRef = useRef(null)
+  const passwordRef = useRef(null)
+
+  const login = e => {
+    e.preventDefault();
+    auth.signInWithEmailAndPassword(
+        emailRef.current.value,
+        passwordRef.current.value
+    ).then(user => {
+        console.log(user)
+        console.log('Welcome back fellow Bison, we love you')
+    }).catch(err => {
+        console.log(err)
+        if (err.code == 'auth/wrong-password'){
+          console.log('Your password is wrong')
+        }else if(err.code == 'auth/user-not-found'){
+          console.log('This account does not exist')
+        }
+        
+    })
+  }
+
   return (
     <div className="App">
       <header className="login-header">
         {/* <img src={bison} /> */}
         
         <form className={classes.root} noValidate autoComplete="off">
-          <TextField required id="standard-basic" label="Email" />
+          <TextField required inputRef={emailRef} id="standard-basic" label="Email" />
           <br></br>
-          <TextField required id="standard-basic" label="Password" />
+          <TextField required inputRef={passwordRef} id="standard-basic" label="Password" />
         </form>
         
         <div style={{ margin: "10px" }}>
-          <Link style={{ textDecoration: "none" }}>
-            <Button variant="outlined">LOGIN</Button>
-          </Link>
+          <Button 
+          onClick={login}
+          variant="outlined">LOGIN</Button>
         </div>
       </header>
     </div>
