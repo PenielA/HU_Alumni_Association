@@ -5,8 +5,12 @@ This application will be able to manage all members of the Howard Alumni Associa
 This README will be updated as we figure out what technologies we will be using and how we will be storing our data
 
 ## A general Overview of this application
-  - howard alumni can register for membership
-  - members can access their account and membership card/id
-  - member accounts are represented by a unique QR
-  - members may receive push notifications
-  - members have access to the shared calendar
+
+- howard alumni can register for membership
+- members can access their account and membership card/id
+- member accounts are represented by a unique QR
+- members may receive push notifications
+- members have access to the shared calendar
+
+Project Console: https://console.firebase.google.com/project/hu-alum/overview
+Hosting URL: https://hu-alum.web.app
