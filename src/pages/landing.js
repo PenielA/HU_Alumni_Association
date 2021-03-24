@@ -1,12 +1,5 @@
 import * as React from "react";
-import firebase from "firebase";
 import "firebase/auth";
-import {
-  FirebaseAuthProvider,
-  FirebaseAuthConsumer,
-  IfFirebaseAuthedAnd,
-} from "@react-firebase/auth";
-import { firebaseConfig } from "../firebaseConfig";
 import bison from "../bison.png";
 import "../App.css";
 import { Link } from "react-router-dom";
