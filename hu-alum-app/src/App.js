@@ -12,7 +12,7 @@ function App() {
       <div className="App">
         <header>
           <Switch>
-            <Route path="/" exact component={landing} />
+            <Route exact path="/" component={landing} />
             <Route path="/profile" component={profile} />
             <Route path="/login" component={login} />
             <Route path="/signup" component={signup} />
