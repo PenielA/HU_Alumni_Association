@@ -13,7 +13,7 @@ function ProfilePage() {
   return (
     <div>
       <h1>Profile Page</h1>
-      <Link to={{pathname:"/"}} onClick={signOut} style={{ textDecoration: "none" }}>
+      <Link href="/" onClick={signOut} style={{ textDecoration: "none" }}>
         <Button >Sign Out</Button>
       </Link>
 
