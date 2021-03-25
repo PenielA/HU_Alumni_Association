@@ -1,7 +1,6 @@
 import React from "react";
 import {auth} from "../firebaseConfig";
 import Button from "@material-ui/core/Button";
-import { Redirect } from "react-router";
 import { Link } from "@material-ui/core";
 
 
@@ -17,7 +16,7 @@ function ProfilePage() {
       <Link to={{pathname:"/"}} onClick={signOut} style={{ textDecoration: "none" }}>
         <Button >Sign Out</Button>
       </Link>
-      
+
     </div>
     );
 

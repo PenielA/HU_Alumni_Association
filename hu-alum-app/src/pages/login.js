@@ -4,7 +4,6 @@ import Button from "@material-ui/core/Button";
 import TextField from '@material-ui/core/TextField';
 import { makeStyles, fade } from "@material-ui/core/styles";
 import { Link, Redirect } from "react-router-dom";
-import firebase from "firebase";
 import "firebase/auth";
 import { auth } from "../firebaseConfig";
 
@@ -28,10 +27,6 @@ function LoginPage() {
   const passwordRef = useRef(null)
   const [loggedIn, setLoggedIn] = useState(false)
 
-  function signOut() {
-    auth.signOut();
-  }
-
   const login = e => {
     e.preventDefault();
     auth.signInWithEmailAndPassword(
@@ -44,9 +39,9 @@ function LoginPage() {
     }).catch(err => {
         setLoggedIn(false)
         console.log(err)
-        if (err.code == 'auth/wrong-password'){
+        if (err.code === 'auth/wrong-password'){
           console.log('Your password is wrong')
-        }else if(err.code == 'auth/user-not-found'){
+        }else if(err.code === 'auth/user-not-found'){
           console.log('This account does not exist')
         }
         
