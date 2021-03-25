@@ -1,6 +1,25 @@
 import React from "react";
+import {auth} from "../firebaseConfig";
+import Button from "@material-ui/core/Button";
+import { Redirect } from "react-router";
+import { Link } from "@material-ui/core";
+
 
 function ProfilePage() {
-  return <h1>Profile Page</h1>;
+  function signOut() {
+    auth.signOut();
+    console.log('Successful Sign Out');
+  }
+  console.log('We in the profile page')
+  return (
+    <div>
+      <h1>Profile Page</h1>
+      <Link to={{pathname:"/"}} onClick={signOut} style={{ textDecoration: "none" }}>
+        <Button >Sign Out</Button>
+      </Link>
+      
+    </div>
+    );
+
 }
 export default ProfilePage;
