@@ -1,16 +1,11 @@
-import React, {useRef} from "react";
+import React, {useRef, useState} from "react";
 import bison from "../bison.png";
 import Button from "@material-ui/core/Button";
 import TextField from '@material-ui/core/TextField';
 import { makeStyles, fade } from "@material-ui/core/styles";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import firebase from "firebase";
 import "firebase/auth";
-import {
-  FirebaseAuthProvider,
-  FirebaseAuthConsumer,
-  IfFirebaseAuthedAnd,
-} from "@react-firebase/auth";
 import { auth } from "../firebaseConfig";
 
 const useStyles = makeStyles((theme) => ({
@@ -31,6 +26,11 @@ function LoginPage() {
   const classes = useStyles();
   const emailRef = useRef(null)
   const passwordRef = useRef(null)
+  const [loggedIn, setLoggedIn] = useState(false)
+
+  function signOut() {
+    auth.signOut();
+  }
 
   const login = e => {
     e.preventDefault();
@@ -39,8 +39,10 @@ function LoginPage() {
         passwordRef.current.value
     ).then(user => {
         console.log(user)
+        setLoggedIn(true)
         console.log('Welcome back fellow Bison, we love you')
     }).catch(err => {
+        setLoggedIn(false)
         console.log(err)
         if (err.code == 'auth/wrong-password'){
           console.log('Your password is wrong')
@@ -55,18 +57,25 @@ function LoginPage() {
     <div className="App">
       <header className="login-header">
         {/* <img src={bison} /> */}
+        {loggedIn?
+          <Redirect to="/profile"/>
+        :
+          <div>
+            <form className={classes.root} noValidate autoComplete="off">
+              <TextField required inputRef={emailRef} id="standard-basic" label="Email" />
+              <br></br>
+              <TextField required inputRef={passwordRef} id="standard-basic" label="Password" />
+            </form>
+            
+            <div style={{ margin: "10px" }}>
+              <Button 
+              onClick={login}
+              variant="outlined">LOGIN</Button>
+            </div>
+          </div>
+        }
         
-        <form className={classes.root} noValidate autoComplete="off">
-          <TextField required inputRef={emailRef} id="standard-basic" label="Email" />
-          <br></br>
-          <TextField required inputRef={passwordRef} id="standard-basic" label="Password" />
-        </form>
         
-        <div style={{ margin: "10px" }}>
-          <Button 
-          onClick={login}
-          variant="outlined">LOGIN</Button>
-        </div>
       </header>
     </div>
   );

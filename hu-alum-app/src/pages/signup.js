@@ -1,8 +1,8 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from '@material-ui/core/TextField';
 import { makeStyles, fade } from "@material-ui/core/styles";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import "firebase/auth";
 import { auth } from "../firebaseConfig";
 
@@ -24,6 +24,9 @@ function SignupPage() {
   const classes = useStyles();
   const emailRef = useRef(null)
   const passwordRef = useRef(null)
+  const [signedUp, setSignedUp] = useState(false)
+  const firstNameRef = useRef(null)
+  const lastNameRef = useRef(null)
 
   const signUp = e =>{
     e.preventDefault();
@@ -31,11 +34,12 @@ function SignupPage() {
     .then(userCredential => {
       // Signed in 
       console.log(userCredential)
+      setSignedUp(true)
       // var user = userCredential.user;
       // ...
     })
     .catch((error) => {
-      
+      setSignedUp(false)
       var errorCode = error.code;
       var errorMessage = error.message;
       console.log(errorMessage)
@@ -46,23 +50,31 @@ function SignupPage() {
   return (
     <div className="App">
       <header className="login-header">
-        
-        <form className={classes.root} noValidate autoComplete="off">
+        {
+          signedUp?
+            <Redirect to="/profile"/>
+          :
+          <div>
+            <form className={classes.root} noValidate autoComplete="off">
+              {/* <TextField required inputRef={firstNameRef} id="standard-basic" label="First Name" />
+              <TextField required inputRef={lastNameRef} id="standard-basic" label="Last Name" /> */}
 
-          <TextField required inputRef={emailRef} id="standard-basic" label="Email" />
-          <br></br>
-          <TextField required inputRef={passwordRef} id="standard-basic" label="Password" />
-        </form>
-        
-        <div style={{ margin: "10px" }}>
-          <Link style={{ textDecoration: "none" }}>
-            <Button 
-              onClick={signUp}
-              variant="outlined">
-              SIGN UP
-            </Button>
-          </Link>
-        </div>
+              <TextField required inputRef={emailRef} id="standard-basic" label="Email" />
+              <br></br>
+              <TextField required inputRef={passwordRef} id="standard-basic" label="Password" />
+            </form>
+            
+            <div style={{ margin: "10px" }}>
+              <Link style={{ textDecoration: "none" }}>
+                <Button 
+                  onClick={signUp}
+                  variant="outlined">
+                  SIGN UP
+                </Button>
+              </Link>
+            </div>
+          </div>
+        }  
       </header>
     </div>
   );
