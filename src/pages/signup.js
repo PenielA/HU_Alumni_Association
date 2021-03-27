@@ -1,27 +1,38 @@
 import React, { useRef, useState } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from '@material-ui/core/TextField';
-import { makeStyles, fade } from "@material-ui/core/styles";
-import { Link, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import "firebase/auth";
 import { auth } from "../firebaseConfig";
+import bison from "../bison.png";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Link from "@material-ui/core/Link";
+import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
+import { makeStyles } from "@material-ui/core/styles";
+import Container from "@material-ui/core/Container";
 
 const useStyles = makeStyles((theme) => ({
-  Sbutton: {
-    fontSize: 19,
-    fontWeight: 800,
-    fontFamily: "Roboto",
-    height: 55,
-    width: 350,
-    color: "black",
-    borderRadius: 20,
-    margin: 5,
-    borderColor: fade("#395386", 0.5),
+  paper: {
+    marginTop: theme.spacing(8),
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+  },
+  form: {
+    width: "100%", // Fix IE 11 issue.
+    marginTop: theme.spacing(3),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+    backgroundColor: "#395386",
+    color: "white",
   },
 }));
 
 function SignupPage() {
   const classes = useStyles();
+
   const emailRef = useRef(null)
   const passwordRef = useRef(null)
   const [signedUp, setSignedUp] = useState(false)
@@ -47,35 +58,92 @@ function SignupPage() {
   }
 
   return (
-    <div className="App">
-      <header className="login-header">
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
         {
           signedUp?
             <Redirect to="/profile"/>
           :
-          <div>
-            <form className={classes.root} noValidate autoComplete="off">
-              {/* <TextField required inputRef={firstNameRef} id="standard-basic" label="First Name" />
-              <TextField required inputRef={lastNameRef} id="standard-basic" label="Last Name" /> */}
-
-              <TextField required inputRef={emailRef} id="standard-basic" label="Email" />
-              <br></br>
-              <TextField required inputRef={passwordRef} id="standard-basic" label="Password" />
+          <div className={classes.paper}>
+            <img src={bison} alt="bison logo" />
+            <Typography component="h1" variant="h5">
+              Sign up
+            </Typography>
+            <form className={classes.form} noValidate>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    autoComplete="fname"
+                    name="firstName"
+                    variant="outlined"
+                    required
+                    inputRef={firstNameRef}
+                    fullWidth
+                    id="firstName"
+                    label="First Name"
+                    autoFocus
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    variant="outlined"
+                    required
+                    inputRef={lastNameRef}
+                    fullWidth
+                    id="lastName"
+                    label="Last Name"
+                    name="lastName"
+                    autoComplete="lname"
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    variant="outlined"
+                    required
+                    inputRef={emailRef}
+                    fullWidth
+                    id="email"
+                    label="Email Address"
+                    name="email"
+                    autoComplete="email"
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    variant="outlined"
+                    required
+                    inputRef={passwordRef}
+                    fullWidth
+                    name="password"
+                    label="Password"
+                    type="password"
+                    id="password"
+                    autoComplete="current-password"
+                  />
+                </Grid>
+              </Grid>
+              <Button
+                type="submit"
+                fullWidth
+                onClick={signUp}
+                variant="contained"
+                color="#395386"
+                className={classes.submit}
+              >
+                Sign Up
+              </Button>
+              <Grid container justify="flex-end">
+                <Grid item>
+                  <Link href="./login" variant="body2">
+                    Already have an account? Sign in
+                  </Link>
+                </Grid>
+              </Grid>
             </form>
-            
-            <div style={{ margin: "10px" }}>
-              <Link style={{ textDecoration: "none" }}>
-                <Button 
-                  onClick={signUp}
-                  variant="outlined">
-                  SIGN UP
-                </Button>
-              </Link>
-            </div>
           </div>
-        }  
-      </header>
-    </div>
+        }
+      </Container>
+      
   );
 }
 export default SignupPage;

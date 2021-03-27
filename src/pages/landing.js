@@ -56,13 +56,12 @@ function Landing() {
     })
     return unsubscribe
   }, [])
-
-  console.log('We inna landing');
-  
+    
   return (
     <div className="App">
       <header className="App-header">
-        {user?
+      {
+        user?
           <Redirect to="/profile" />
         :
           <div>

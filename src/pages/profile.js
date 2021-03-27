@@ -1,3 +1,4 @@
+
 import React from "react";
 import {auth} from "../firebaseConfig";
 import Button from "@material-ui/core/Button";
@@ -9,7 +10,6 @@ function ProfilePage() {
     auth.signOut();
     console.log('Successful Sign Out');
   }
-  console.log('We in the profile page')
   return (
     <div>
       <h1>Profile Page</h1>
