@@ -1,18 +1,13 @@
-import * as React from "react";
-import firebase from "firebase";
+import React, {useState, useEffect}from "react";
 import "firebase/auth";
-import {
-  FirebaseAuthProvider,
-  FirebaseAuthConsumer,
-  IfFirebaseAuthedAnd,
-} from "@react-firebase/auth";
-import { firebaseConfig } from "../firebaseConfig";
 import bison from "../bison.png";
 import "../App.css";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import { fade } from "@material-ui/core/styles/colorManipulator";
+import { auth } from "../firebaseConfig";
+
 
 const useStyles = makeStyles((theme) => ({
   Lbutton: {
@@ -41,21 +36,49 @@ const useStyles = makeStyles((theme) => ({
     borderColor: "white",
   },
 }));
+
 function Landing() {
   const classes = useStyles();
+  const [user, setUser] = useState(null)
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged(userAuth => {
+      const user = {
+        uid: userAuth?.uid,
+        email: userAuth?.email
+      }
+      if (userAuth) {
+        console.log(userAuth)
+        setUser(user)
+      } else {
+        setUser(null)
+      }
+    })
+    return unsubscribe
+  }, [])
+    
   return (
     <div className="App">
       <header className="App-header">
-        <h1>HOWARD UNIVERSITY ALUMNI</h1>
-        <img src={bison} className="App-logo" alt="logo" />
-        <Link to={{ pathname: "/login" }} style={{ textDecoration: "none" }}>
-          <Button className={classes.Lbutton}>LOGIN</Button>
-        </Link>
-        <Link to={{ pathname: "/signup" }} style={{ textDecoration: "none" }}>
-          <Button className={classes.Sbutton} variant="outlined">
-            SIGNUP
-          </Button>
-        </Link>
+      {
+        user?
+          <Redirect to="/profile" />
+        :
+          <div>
+             <h1>HOWARD UNIVERSITY ALUMNI</h1>
+            <img src={bison} className="App-logo" alt="logo" />
+
+            <Link to={{ pathname: "/login" }} style={{ textDecoration: "none" }}>
+              <Button className={classes.Lbutton}>LOGIN</Button>
+            </Link>
+            
+            <Link to={{ pathname: "/signup" }} style={{ textDecoration: "none" }}>
+              <Button className={classes.Sbutton} variant="outlined">
+                SIGNUP
+              </Button>
+            </Link>
+          </div>
+        }
       </header>
     </div>
   );
