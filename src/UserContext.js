@@ -7,6 +7,7 @@ let initialState = {
     email:'',
     phoneNumber:'',
     password: '',
+    newUser: false,
 };
 
 const reducer = (state, action) => {
@@ -23,6 +24,8 @@ const reducer = (state, action) => {
             return {...state, phoneNumber: action.payload };
         case "set-password":
             return {...state, password: action.payload };
+        case "new-user-status":
+        return {...state, newUser: action.payload };
         default:
             return state;
     }
@@ -73,6 +76,13 @@ const UserContextProvider = ({children}) => {
             payload: pword,
         });
     };
+
+    const setNewUser = (new_user) => {
+        dispatch({
+            type: "new-user-status",
+            payload: new_user,
+        });
+    };
     
 
     return(
@@ -82,12 +92,14 @@ const UserContextProvider = ({children}) => {
             email: state.email,
             phoneNumber: state.phoneNumber,
             password: state.password,
+            newUser: state.newUser,
             logout,
             setFirstName,
             setLastName,
             setEmail,
             setPhoneNumber,
             setPassword,
+            setNewUser,
         }}> {children} </UserContext.Provider>
     )
 };
