@@ -1,9 +1,9 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useContext } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from '@material-ui/core/TextField';
 import { Redirect } from "react-router-dom";
 import "firebase/auth";
-import { auth } from "../firebaseConfig";
+import { auth, setUserData } from "../firebaseConfig";
 import bison from "../bison.png";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Link from "@material-ui/core/Link";
@@ -11,6 +11,7 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import {UserContext} from '../UserContext';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -32,28 +33,70 @@ const useStyles = makeStyles((theme) => ({
 
 function SignupPage() {
   const classes = useStyles();
-
   const emailRef = useRef(null)
   const passwordRef = useRef(null)
   const [signedUp, setSignedUp] = useState(false)
   const firstNameRef = useRef(null)
   const lastNameRef = useRef(null)
+  const {
+    setNewUser,
+    setFirstName,
+    setLastName,
+    setEmail,
+    setPassword,
+  } = useContext(UserContext);
+
+  const storeUser = (first_name,last_name,email,password) => {
+    storeUserInContext(
+      true,
+      first_name,
+      last_name,
+      email,
+      password);
+    storeUserInFirebase(
+      auth.currentUser.uid,
+      first_name,
+      last_name,
+      email,
+      password);
+  }
+
+  const storeUserInFirebase = (userUID,first_name,last_name,email,password) => {
+    setUserData(
+      userUID,
+      first_name,
+      last_name,
+      email,
+      password);
+  }
+
+  const storeUserInContext = (status,first_name,last_name,email,password) => {
+    // Save User data in global context
+    setNewUser(status);
+    setFirstName(first_name);
+    setLastName(last_name);
+    setEmail(email);
+    setPassword(password);
+  }
 
   const signUp = e =>{
     e.preventDefault();
     auth.createUserWithEmailAndPassword(emailRef.current.value, passwordRef.current.value)
     .then(userCredential => {
-      // Signed in 
-      console.log(userCredential)
-      setSignedUp(true)
-      // var user = userCredential.user;
-      // ...
+      // Signed in       
+      storeUser(
+        firstNameRef.current.value,
+        lastNameRef.current.value,
+        emailRef.current.value,
+        passwordRef.current.value);
+  
+      setSignedUp(true);
+
     })
     .catch((error) => {
       setSignedUp(false)
       var errorMessage = error.message;
-      console.log(errorMessage)
-      // ..
+      console.log(errorMessage);
     });
   }
 

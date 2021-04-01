@@ -14,5 +14,20 @@ var firebaseConfig = {
 const firebaseApp = firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 const auth = firebase.auth();
-export { auth };
-export default db;
+export { auth, db };
+export default {db};
+
+export const setUserData = (userUID,fname, lname,email, password) => {
+  db.collection("users").doc(userUID).set({
+      first_name: fname,
+      last_name:lname,
+      email: email,
+      password: password,
+  })
+  .then(() => {
+      console.log("User successfully stored to firebase. Document successfully written!");
+  })
+  .catch((error) => {
+      console.error("Error writing document: ", error);
+  });
+}
