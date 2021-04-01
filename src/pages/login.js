@@ -44,7 +44,6 @@ function LoginPage() {
         emailRef.current.value,
         passwordRef.current.value
     ).then(user => {
-        console.log(user)
         setLoggedIn(true)
         console.log('Welcome back fellow Bison, we love you')
     }).catch(err => {
