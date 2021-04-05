@@ -1,10 +1,10 @@
 
-import React, {useContext, useEffect, useRef} from "react";
+import React, {useContext, useEffect, useRef, useState} from "react";
 import {auth, db} from "../firebaseConfig";
 import Button from "@material-ui/core/Button";
 import { Link } from "@material-ui/core";
 import {UserContext} from '../UserContext';
-
+import QrCode from '../components/qrcode';
 
 function ProfilePage() {
   const {
@@ -17,6 +17,7 @@ function ProfilePage() {
   } = useContext(UserContext);
   const uploadedImage = React.useRef(null);
   const imageUploader = React.useRef(null);
+  const [qrcode, setQRCode] = useState(null);
 
   function signOut() {
     auth.signOut();
@@ -48,8 +49,11 @@ function ProfilePage() {
       getUserDataFromFirebase(auth.currentUser.uid);
     }
     
-  }, [])
+    
 
+    
+  }, [])
+ 
 
   const handleImageUpload = e => {
     const [file] = e.target.files;
@@ -102,8 +106,8 @@ function ProfilePage() {
           />
         </div>
         Click to upload Image
-        
       </div>
+      <QrCode qrcode_url='https://api.qrserver.com/v1/create-qr-code/?size=150x150&bgcolor=0b3c61&data=HelloWorld'/>
       <Link href="/" onClick={signOut} style={{ textDecoration: "none" }}>
         <Button >Sign Out</Button>
       </Link>
