@@ -9,14 +9,17 @@ import QrCode from '../components/qrcode';
 function ProfilePage() {
   const {
     newUser,
+    firstName,
+    lastName,
     setFirstName,
     setLastName,
     setEmail,
     setPassword,
     logout,
   } = useContext(UserContext);
-  const uploadedImage = React.useRef(null);
-  const imageUploader = React.useRef(null);
+
+  const uploadedImage = useRef(null);
+  const imageUploader = useRef(null);
   const [qrcode, setQRCode] = useState(null);
 
   function signOut() {
@@ -25,32 +28,39 @@ function ProfilePage() {
     console.log('Successful Sign Out');
   }
 
-  const getUserDataFromFirebase = userUID => {
+  const getUserDataFromFirebase = async (userUID) => {
     let docRef = db.collection("users").doc(userUID);
   
     docRef.get().then((doc) => {
-        if (doc.exists) {
-          setFirstName(doc.data().first_name);
-          setLastName(doc.data().last_name);
-          setEmail(doc.data().email);
-          setPassword(doc.data().password);
-          console.log('retrieved from firebase & Context saved');
-        } else {
-            // doc.data() will be undefined in this case
-            console.log("There is no data for this user in our database");
-        }
+      if (doc.exists) {
+        setFirstName(doc.data().first_name);
+        setLastName(doc.data().last_name);
+        setEmail(doc.data().email);
+        setPassword(doc.data().password);
+        console.log('retrieved from firebase & Context saved');
+      } else {
+          // doc.data() will be undefined in this case
+          console.log("There is no data for this user in our database");
+      }
     }).catch((error) => {
         console.log("Error getting document:", error);
     });
+  }
+
+  /**
+   * this function create the qrcode url that displays the users first and last name.
+   * TODO: swap user's names out for a unique Alumni ID
+   * @returns url as aa string
+   */
+   function constructQrCodeUrl(){
+    let base_url = 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&bgcolor=0b3c61&data='
+    return base_url + firstName + lastName;
   }
 
   useEffect(() => {
     if (!newUser){
       getUserDataFromFirebase(auth.currentUser.uid);
     }
-    
-    
-
     
   }, [])
  
@@ -107,7 +117,11 @@ function ProfilePage() {
         </div>
         Click to upload Image
       </div>
-      <QrCode qrcode_url='https://api.qrserver.com/v1/create-qr-code/?size=150x150&bgcolor=0b3c61&data=HelloWorld'/>
+
+      <QrCode qrcode_url={constructQrCodeUrl()}/>
+      {/* <QrCode qrcode_url='https://api.qrserver.com/v1/create-qr-code/?size=150x150&amp;bgcolor=0b3c61&amp;data=HelloWorld'/> */}
+
+
       <Link href="/" onClick={signOut} style={{ textDecoration: "none" }}>
         <Button >Sign Out</Button>
       </Link>
