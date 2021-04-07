@@ -2,6 +2,7 @@ import React from 'react';
 import {useReducer, createContext } from 'react';
 
 let initialState = {
+    alumniID: '',
     firstName:'',
     lastName:'',
     email:'',
@@ -14,6 +15,8 @@ const reducer = (state, action) => {
     switch (action.type) {
         case "logout":
             return initialState;
+        case "set-alumni-id":
+            return {...state, alumniID: action.payload };
         case "set-first-name":
             return {...state, firstName: action.payload };
         case "set-last-name":
@@ -39,6 +42,13 @@ const UserContextProvider = ({children}) => {
     const logout = () => {
         dispatch({
             type: "logout",
+        });
+    };
+
+    const setAlumniID = (alumni_id) => {
+        dispatch({
+            type: "set-alumni-id",
+            payload: alumni_id,
         });
     };
 
@@ -87,6 +97,7 @@ const UserContextProvider = ({children}) => {
 
     return(
         <UserContext.Provider value={{
+            alumniID: state.alumniID,
             firstName: state.firstName,
             lastName: state.lastName,
             email: state.email,
@@ -94,6 +105,7 @@ const UserContextProvider = ({children}) => {
             password: state.password,
             newUser: state.newUser,
             logout,
+            setAlumniID,
             setFirstName,
             setLastName,
             setEmail,

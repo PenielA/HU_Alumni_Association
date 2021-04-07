@@ -1,5 +1,5 @@
 
-import React, {useContext, useEffect, useRef, useState} from "react";
+import React, {useContext, useEffect, useRef} from "react";
 import {auth, db} from "../firebaseConfig";
 import Button from "@material-ui/core/Button";
 import { Link } from "@material-ui/core";
@@ -9,8 +9,10 @@ import QrCode from '../components/qrcode';
 function ProfilePage() {
   const {
     newUser,
+    alumniID,
     firstName,
     lastName,
+    setNewUser,
     setFirstName,
     setLastName,
     setEmail,
@@ -20,7 +22,6 @@ function ProfilePage() {
 
   const uploadedImage = useRef(null);
   const imageUploader = useRef(null);
-  const [qrcode, setQRCode] = useState(null);
 
   function signOut() {
     auth.signOut();
@@ -28,9 +29,11 @@ function ProfilePage() {
     console.log('Successful Sign Out');
   }
 
+
   const getUserDataFromFirebase = async (userUID) => {
+    setNewUser(false);
+    
     let docRef = db.collection("users").doc(userUID);
-  
     docRef.get().then((doc) => {
       if (doc.exists) {
         setFirstName(doc.data().first_name);
@@ -39,7 +42,6 @@ function ProfilePage() {
         setPassword(doc.data().password);
         console.log('retrieved from firebase & Context saved');
       } else {
-          // doc.data() will be undefined in this case
           console.log("There is no data for this user in our database");
       }
     }).catch((error) => {
@@ -54,7 +56,7 @@ function ProfilePage() {
    */
    function constructQrCodeUrl(){
     let base_url = 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&bgcolor=0b3c61&data='
-    return base_url + firstName + lastName;
+    return base_url + ' @' + alumniID + ' - ' + firstName + ' ' + lastName;
   }
 
   useEffect(() => {
@@ -119,7 +121,6 @@ function ProfilePage() {
       </div>
 
       <QrCode qrcode_url={constructQrCodeUrl()}/>
-      {/* <QrCode qrcode_url='https://api.qrserver.com/v1/create-qr-code/?size=150x150&amp;bgcolor=0b3c61&amp;data=HelloWorld'/> */}
 
 
       <Link href="/" onClick={signOut} style={{ textDecoration: "none" }}>

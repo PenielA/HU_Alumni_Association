@@ -38,41 +38,54 @@ function SignupPage() {
   const [signedUp, setSignedUp] = useState(false)
   const firstNameRef = useRef(null)
   const lastNameRef = useRef(null)
+  
   const {
     setNewUser,
+    setAlumniID,
     setFirstName,
     setLastName,
     setEmail,
     setPassword,
   } = useContext(UserContext);
 
-  const storeUser = (first_name,last_name,email,password) => {
+  const generateID = (length) => {
+    let chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    let result = '';
+    for (let i = length; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
+    return result;
+  }
+
+  const storeUser = (alum_id,first_name,last_name,email,password) => {
     storeUserInContext(
       true,
+      alum_id,
       first_name,
       last_name,
       email,
       password);
     storeUserInFirebase(
       auth.currentUser.uid,
+      alum_id,
       first_name,
       last_name,
       email,
       password);
   }
 
-  const storeUserInFirebase = (userUID,first_name,last_name,email,password) => {
+  const storeUserInFirebase = (userUID,alum_id,first_name,last_name,email,password) => {
     setUserData(
       userUID,
+      alum_id,
       first_name,
       last_name,
       email,
       password);
   }
 
-  const storeUserInContext = (status,first_name,last_name,email,password) => {
+  const storeUserInContext = (status,alum_id,first_name,last_name,email,password) => {
     // Save User data in global context
     setNewUser(status);
+    setAlumniID(alum_id);
     setFirstName(first_name);
     setLastName(last_name);
     setEmail(email);
@@ -83,8 +96,10 @@ function SignupPage() {
     e.preventDefault();
     auth.createUserWithEmailAndPassword(emailRef.current.value, passwordRef.current.value)
     .then(userCredential => {
-      // Signed in       
+      // Signed in  
+      let alum_id = generateID(8);     
       storeUser(
+        alum_id,
         firstNameRef.current.value,
         lastNameRef.current.value,
         emailRef.current.value,

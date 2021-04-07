@@ -17,8 +17,9 @@ const auth = firebase.auth();
 export { auth, db };
 export default {db};
 
-export const setUserData = (userUID,fname, lname,email, password) => {
+export const setUserData = (userUID,alum_id,fname, lname,email, password) => {
   db.collection("users").doc(userUID).set({
+      alumni_id: alum_id,
       first_name: fname,
       last_name:lname,
       email: email,
