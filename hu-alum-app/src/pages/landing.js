@@ -56,6 +56,11 @@ function Landing() {
             SIGNUP
           </Button>
         </Link>
+        <Link to={{ pathname: "/ID" }} style={{ textDecoration: "none" }}>
+          <Button className={classes.Lbutton} variant="outlined">
+            ID
+          </Button>
+        </Link>
       </header>
     </div>
   );

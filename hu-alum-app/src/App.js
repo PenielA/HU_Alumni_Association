@@ -3,6 +3,7 @@ import profile from "./pages/profile";
 import landing from "./pages/landing";
 import login from "./pages/login";
 import signup from "./pages/signup";
+import ID from "./pages/ID";
 import "./App.css";
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 function App() {
@@ -15,6 +16,7 @@ function App() {
             <Route path="/profile" component={profile} />
             <Route path="/login" component={login} />
             <Route path="/signup" component={signup} />
+            <Route path="/ID" component={ID} />
           </Switch>
         </header>
       </div>
