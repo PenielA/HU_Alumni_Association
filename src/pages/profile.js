@@ -1,6 +1,6 @@
 
 import React, {useContext, useEffect, useRef} from "react";
-import {auth, db} from "../firebaseConfig";
+import {auth, db, updateGraduationDate, addAssociatedOrg, removeAssociatedOrg} from "../firebaseConfig";
 import Button from "@material-ui/core/Button";
 import { Link } from "@material-ui/core";
 import {UserContext} from '../UserContext';
@@ -29,7 +29,6 @@ function ProfilePage() {
     console.log('Successful Sign Out');
   }
 
-
   const getUserDataFromFirebase = async (userUID) => {
     setNewUser(false);
     
@@ -42,7 +41,7 @@ function ProfilePage() {
         setPassword(doc.data().password);
         console.log('retrieved from firebase & Context saved');
       } else {
-          console.log("There is no data for this user in our database");
+        console.log("There is no data for this user in our database");
       }
     }).catch((error) => {
         console.log("Error getting document:", error);
@@ -62,8 +61,7 @@ function ProfilePage() {
   useEffect(() => {
     if (!newUser){
       getUserDataFromFirebase(auth.currentUser.uid);
-    }
-    
+    }   
   }, [])
  
 
@@ -122,6 +120,27 @@ function ProfilePage() {
 
       <QrCode qrcode_url={constructQrCodeUrl()}/>
 
+      <p>Look in Chrome console to see logs from firebase functions</p>
+
+      <br></br>
+
+      <Button onClick={() => addAssociatedOrg(auth.currentUser.uid,'JHUAN')}>
+      Add JHUAN as associated org
+      </Button>
+
+      <br></br>
+
+      <Button onClick={() => removeAssociatedOrg(auth.currentUser.uid,'JHUAN')}>
+      Remove JHUAN as associated org
+      </Button>
+
+      <br></br>
+
+      <Button onClick={() => updateGraduationDate(auth.currentUser.uid,'2021')}>
+      Set Graduation date to 2021
+      </Button>
+
+      <br></br>
 
       <Link href="/" onClick={signOut} style={{ textDecoration: "none" }}>
         <Button >Sign Out</Button>
