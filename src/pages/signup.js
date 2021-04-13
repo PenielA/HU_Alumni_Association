@@ -3,7 +3,7 @@ import Button from "@material-ui/core/Button";
 import TextField from '@material-ui/core/TextField';
 import { Redirect } from "react-router-dom";
 import "firebase/auth";
-import { auth, initUserData } from "../firebaseConfig";
+import { auth, initUserProfileFirebaseData } from "../firebaseConfig";
 import bison from "../bison.png";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Link from "@material-ui/core/Link";
@@ -73,7 +73,7 @@ function SignupPage() {
   }
 
   const storeUserInFirebase = (userUID,alum_id,first_name,last_name,email,password) => {
-    initUserData(
+    initUserProfileFirebaseData(
       userUID,
       alum_id,
       first_name,

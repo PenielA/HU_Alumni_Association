@@ -1,6 +1,6 @@
 
 import React, {useContext, useEffect, useRef} from "react";
-import {auth, db, updateGraduationDate, addAssociatedOrg, removeAssociatedOrg} from "../firebaseConfig";
+import {auth, db, editUserProfileFirebaseData} from "../firebaseConfig";
 import Button from "@material-ui/core/Button";
 import { Link } from "@material-ui/core";
 import {UserContext} from '../UserContext';
@@ -13,9 +13,13 @@ function ProfilePage() {
     firstName,
     lastName,
     setNewUser,
+    setAlumniID,
     setFirstName,
     setLastName,
     setEmail,
+    setPhoneNumber,
+    setGradYear,
+    setAssociatedOrg,
     setPassword,
     logout,
   } = useContext(UserContext);
@@ -29,12 +33,28 @@ function ProfilePage() {
     console.log('Successful Sign Out');
   }
 
-  const getUserDataFromFirebase = async (userUID) => {
+  function editProfileData(fname,lname,phone_number,graduated_in,email, password, associated_orgs) {
+    editUserProfileFirebaseData(auth.currentUser.uid,fname,lname,phone_number,graduated_in,email, password, associated_orgs);
+    editUserProfileContextData(fname,lname,phone_number,graduated_in,email, password, associated_orgs);
+  }
+
+  function editUserProfileContextData(fname,lname,phone_number,graduated_in,email, password, associated_orgs) {
+    setFirstName(fname);
+    setLastName(lname);
+    setPhoneNumber(phone_number);
+    setGradYear(graduated_in);
+    setEmail(email);
+    setPassword(password);
+    setAssociatedOrg(associated_orgs);
+  }
+
+  const getNewUserDataFromFirebase = async (userUID) => {
     setNewUser(false);
     
     let docRef = db.collection("users").doc(userUID);
     docRef.get().then((doc) => {
       if (doc.exists) {
+        setAlumniID(doc.data().alumni_id);
         setFirstName(doc.data().first_name);
         setLastName(doc.data().last_name);
         setEmail(doc.data().email);
@@ -60,10 +80,9 @@ function ProfilePage() {
 
   useEffect(() => {
     if (!newUser){
-      getUserDataFromFirebase(auth.currentUser.uid);
+      getNewUserDataFromFirebase(auth.currentUser.uid);
     }   
-  }, [])
- 
+  }, []);
 
   const handleImageUpload = e => {
     const [file] = e.target.files;
@@ -121,24 +140,6 @@ function ProfilePage() {
       <QrCode qrcode_url={constructQrCodeUrl()}/>
 
       <p>Look in Chrome console to see logs from firebase functions</p>
-
-      <br></br>
-
-      <Button onClick={() => addAssociatedOrg(auth.currentUser.uid,'JHUAN')}>
-      Add JHUAN as associated org
-      </Button>
-
-      <br></br>
-
-      <Button onClick={() => removeAssociatedOrg(auth.currentUser.uid,'JHUAN')}>
-      Remove JHUAN as associated org
-      </Button>
-
-      <br></br>
-
-      <Button onClick={() => updateGraduationDate(auth.currentUser.uid,'2021')}>
-      Set Graduation date to 2021
-      </Button>
 
       <br></br>
 

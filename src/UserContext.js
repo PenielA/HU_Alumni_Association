@@ -7,7 +7,9 @@ let initialState = {
     lastName:'',
     email:'',
     phoneNumber:'',
+    graduatedIn:'',
     password: '',
+    associatedOrgs:[],
     newUser: false,
 };
 
@@ -25,6 +27,20 @@ const reducer = (state, action) => {
             return {...state, email: action.payload };
         case "set-phone-number":
             return {...state, phoneNumber: action.payload };
+        case "set-grad-year":
+            return {...state, graduatedIn: action.payload };
+        case "set-associated-org":
+            return {...state, associatedOrgs: action.payload };
+        case "add-associated-org":
+            return {
+                ...state,
+                associatedOrgs: state.associatedOrgs.concat(action.payload)
+            }
+        case "remove-associated-org":
+            return {
+                ...state,
+                associatedOrgs: state.associatedOrgs.filter(org => org !== action.payload)
+            }
         case "set-password":
             return {...state, password: action.payload };
         case "new-user-status":
@@ -80,6 +96,20 @@ const UserContextProvider = ({children}) => {
         });
     };
 
+    const setGradYear = (year) => {
+        dispatch({
+            type: "set-grad-year",
+            payload: year,
+        });
+    };
+
+    const setAssociatedOrg = (org) => {
+        dispatch({
+            type: "set-associated-org",
+            payload: org,
+        });
+    };
+
     const setPassword = (pword) => {
         dispatch({
             type: "set-password",
@@ -101,6 +131,8 @@ const UserContextProvider = ({children}) => {
             firstName: state.firstName,
             lastName: state.lastName,
             email: state.email,
+            associatedOrgs: state.associatedOrgs,
+            graduatedIn: state.graduatedIn,
             phoneNumber: state.phoneNumber,
             password: state.password,
             newUser: state.newUser,
@@ -110,6 +142,8 @@ const UserContextProvider = ({children}) => {
             setLastName,
             setEmail,
             setPhoneNumber,
+            setGradYear,
+            setAssociatedOrg,
             setPassword,
             setNewUser,
         }}> {children} </UserContext.Provider>

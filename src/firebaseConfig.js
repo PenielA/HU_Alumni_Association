@@ -15,9 +15,8 @@ const firebaseApp = firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 const auth = firebase.auth();
 export { auth, db };
-export default {db};
 
-export const initUserData = (userUID,alum_id,fname, lname,email, password) => {
+export const initUserProfileFirebaseData = (userUID,alum_id,fname, lname,email, password) => {
   db.collection("users").doc(userUID).set({
       alumni_id: alum_id,
       first_name: fname,
@@ -36,7 +35,26 @@ export const initUserData = (userUID,alum_id,fname, lname,email, password) => {
   });
 }
 
-export const updatePhoneNumber = (userUID,phone_num) => {
+    // TODO: grad year being editable is a potential security bug further down the line and should be collected upon signup
+export const editUserProfileFirebaseData = (userUID,fname,lname,phone_number,graduated_in,email, password, associated_orgs) => {
+    db.collection("users").doc(userUID).update({
+        first_name: fname,
+        last_name:lname,
+        phone_number: phone_number,
+        graduated_in: graduated_in, 
+        email: email,
+        password: password,
+        associated_orgs: associated_orgs,
+    })
+    .then(() => {
+        console.log("Profile Edited!");
+    })
+    .catch((error) => {
+        console.error("Error writing document: ", error);
+    });
+  }
+
+export const updateFirebasePhoneNumber = (userUID,phone_num) => {
   db.collection("users").doc(userUID).update({
       phone_number: phone_num,
   })
@@ -48,7 +66,7 @@ export const updatePhoneNumber = (userUID,phone_num) => {
   });
 }
 
-export const updateGraduationDate = (userUID,year) => {
+export const updateFirebaseGraduationDate = (userUID,year) => {
   db.collection("users").doc(userUID).update({
       graduated_in: year,
   })
@@ -60,7 +78,7 @@ export const updateGraduationDate = (userUID,year) => {
   });
 }
 
-export const addAssociatedOrg = (userUID, associatedOrg) => {
+export const addFirebaseAssociatedOrg = (userUID, associatedOrg) => {
   db.collection("users").doc(userUID).update({
       associated_orgs: firebase.firestore.FieldValue.arrayUnion(associatedOrg),
   })
@@ -72,7 +90,7 @@ export const addAssociatedOrg = (userUID, associatedOrg) => {
   });
 }
 
-export const removeAssociatedOrg = (userUID, associatedOrg) => {
+export const removeFirebaseAssociatedOrg = (userUID, associatedOrg) => {
   db.collection("users").doc(userUID).update({
       associated_orgs: firebase.firestore.FieldValue.arrayRemove(associatedOrg),
   })
