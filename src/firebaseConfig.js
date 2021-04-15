@@ -16,13 +16,13 @@ const db = firebase.firestore();
 const auth = firebase.auth();
 export { auth, db };
 
-export const initUserProfileFirebaseData = (userUID,alum_id,fname, lname,email, password) => {
+export const initUserProfileFirebaseData = (userUID,alum_id,fname, lname,email, password,gradYear) => {
   db.collection("users").doc(userUID).set({
       alumni_id: alum_id,
       first_name: fname,
       last_name:lname,
       phone_number: '',
-      graduated_in: '',
+      graduated_in: gradYear,
       email: email,
       password: password,
       associated_orgs: [],
