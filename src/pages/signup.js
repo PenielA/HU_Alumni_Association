@@ -4,7 +4,7 @@ import TextField from "@material-ui/core/TextField";
 import { Redirect } from "react-router-dom";
 import "firebase/auth";
 import { auth, initUserProfileFirebaseData } from "../firebaseConfig";
-import bison from "../bison.png";
+import bison from "../images/bison.png";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
