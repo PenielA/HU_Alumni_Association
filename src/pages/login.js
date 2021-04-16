@@ -1,4 +1,6 @@
-import React from "react";
+import React, {useRef, useState} from "react";
+import {auth} from "../firebaseConfig";
+import { Redirect } from "react-router-dom";
 import bison from "../bison.png";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
@@ -57,6 +59,9 @@ function LoginPage() {
 
   return (
     <Container component="main" maxWidth="xs">
+    {loggedIn ? (
+        <Redirect to="/profile" />
+      ) : (
       <div className={classes.paper}>
         <img src={bison} alt="bison logo" />
         <Typography component="h1" variant="h5">
@@ -115,6 +120,7 @@ function LoginPage() {
           </Grid>
         </form>
       </div>
+      )}
     </Container>
   );
 }

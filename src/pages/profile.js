@@ -1,5 +1,5 @@
-import React from "react";
-import { auth } from "../firebaseConfig";
+import React, {useContext, useEffect, useRef} from "react";
+import {auth, db, editUserProfileFirebaseData} from "../firebaseConfig";
 import Button from "@material-ui/core/Button";
 // import { Link } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -8,14 +8,11 @@ import Paper from "@material-ui/core/Paper";
 import Toolbar from "@material-ui/core/Toolbar";
 import MenuIcon from "@material-ui/icons/Menu";
 import clsx from "clsx";
-import React, {useContext, useEffect, useRef} from "react";
-import {auth, db, editUserProfileFirebaseData} from "../firebaseConfig";
-import Button from "@material-ui/core/Button";
 import { Link } from "@material-ui/core";
 import {UserContext} from '../UserContext';
 import QrCode from '../components/qrcode';
 import Avatar from "@material-ui/core/Avatar";
-import bison from "../bison.png";
+import bison from "../images/bison.png";
 import Divider from "@material-ui/core/Divider";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -89,6 +86,8 @@ function ProfilePage() {
     alumniID,
     firstName,
     lastName,
+    email,
+    phoneNumber,
     setNewUser,
     setAlumniID,
     setFirstName,
@@ -142,6 +141,7 @@ function ProfilePage() {
         setLastName(doc.data().last_name);
         setEmail(doc.data().email);
         setPassword(doc.data().password);
+        setPhoneNumber(doc.data().phone_number);
         console.log('retrieved from firebase & Context saved');
       } else {
         console.log("There is no data for this user in our database");
@@ -194,16 +194,16 @@ function ProfilePage() {
         </div>
         <List component="nav" aria-label="mailbox folders">
           <ListItem button divider>
-            <ListItemText primary="Peniel Abebe"></ListItemText>
+            <ListItemText>{firstName} {lastName} (@{alumniID})</ListItemText>
           </ListItem>
           <ListItem button>
             <EmailOutlinedIcon />
-            <ListItemText primary="  peniel.abebe@bison.howard.edu" />
+            <ListItemText> {email} </ListItemText>
           </ListItem>
           <Divider light />
           <ListItem button>
             <PhoneIcon />
-            <ListItemText primary="240-xxx-xxxx" />
+            <ListItemText> {phoneNumber} </ListItemText>
           </ListItem>
         </List>
       </div>
@@ -219,11 +219,12 @@ function ProfilePage() {
           </Grid>
         </Grid>
       </div>
+      <Link href="/" onClick={signOut} style={{ textDecoration: "none" }}>
+        <Button >Sign Out</Button>
+      </Link>
     </div>
-    {/* <QrCode qrcode_url={constructQrCodeUrl()}/> */}
-    // <Link href="/" onClick={signOut} style={{ textDecoration: "none" }}>
-    //   <Button >Sign Out</Button>
-    // </Link>
+    /* <QrCode qrcode_url={constructQrCodeUrl()}/> */
+    
   );
 }
 export default ProfilePage;
