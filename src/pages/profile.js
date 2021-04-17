@@ -1,7 +1,6 @@
 import React, {useContext, useEffect, useRef} from "react";
 import {auth, db, editUserProfileFirebaseData} from "../firebaseConfig";
 import Button from "@material-ui/core/Button";
-// import { Link } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
@@ -9,7 +8,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import { groupLogo } from '../components/groupLogo.js';
 import MenuIcon from "@material-ui/icons/Menu";
 import clsx from "clsx";
-import { Link } from "@material-ui/core";
+import Link from "@material-ui/core/Link";
 import {UserContext} from '../UserContext';
 import QrCode from '../components/qrcode';
 import Avatar from "@material-ui/core/Avatar";
@@ -20,6 +19,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import EmailOutlinedIcon from "@material-ui/icons/EmailOutlined";
 import PhoneIcon from "@material-ui/icons/Phone";
+
 
 const drawerWidth = 240;
 
@@ -102,6 +102,8 @@ function ProfilePage() {
     setPassword,
     logout,
   } = useContext(UserContext);
+
+ 
   // const [open, setOpen] = React.useState(false);
 
   // const handleDrawerOpen = () => {
@@ -133,7 +135,7 @@ function ProfilePage() {
     setAssociatedOrg(associated_orgs);
   }
 
-  const getNewUserDataFromFirebase = async (userUID) => {
+  const getUserDataFromFirebase = async (userUID) => {
     setNewUser(false);
     
     let docRef = db.collection("users").doc(userUID);
@@ -166,9 +168,11 @@ function ProfilePage() {
     return base_url + ' @' + alumniID + ' - ' + firstName + ' ' + lastName;
   }
 
+  
+
   useEffect(() => {
     if (!newUser){
-      getNewUserDataFromFirebase(auth.currentUser.uid);
+      getUserDataFromFirebase(auth.currentUser.uid);
     }   
   }, []);
 
@@ -184,6 +188,8 @@ function ProfilePage() {
         />
         <MenuIcon />
       </Toolbar> */}
+
+
       <div className={classes.root1}>
         <Avatar
           alt="Remy Sharp"
@@ -191,12 +197,15 @@ function ProfilePage() {
           className={classes.large}
           style={{ height: "90px", width: "90px" }}
         />
+
         <div>
           <MenuIcon />
           <Button href="#" size="small" className={classes.margin}>
             EDIT
           </Button>
         </div>
+
+
         <List component="nav" aria-label="mailbox folders">
           <ListItem button divider>
             <ListItemText>{firstName} {lastName} (@{alumniID})</ListItemText>
@@ -212,6 +221,7 @@ function ProfilePage() {
           </ListItem>
         </List>
       </div>
+      
       <div>
         <h1>Associated Organizations</h1>
         <Grid container className={classes.root} spacing={2}>
@@ -227,6 +237,8 @@ function ProfilePage() {
           </Grid>
         </Grid>
       </div>
+
+
       <Link href="/" onClick={signOut} style={{ textDecoration: "none" }}>
         <Button >Sign Out</Button>
       </Link>
