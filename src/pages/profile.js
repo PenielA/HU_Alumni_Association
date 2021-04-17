@@ -6,6 +6,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Toolbar from "@material-ui/core/Toolbar";
+import { groupLogo } from '../components/groupLogo.js';
 import MenuIcon from "@material-ui/icons/Menu";
 import clsx from "clsx";
 import { Link } from "@material-ui/core";
@@ -81,6 +82,7 @@ const useStyles = makeStyles((theme) => ({
 function ProfilePage() {
   const [spacing, setSpacing] = React.useState(8);
   const classes = useStyles();
+
   const {
     newUser,
     alumniID,
@@ -88,6 +90,7 @@ function ProfilePage() {
     lastName,
     email,
     phoneNumber,
+    associatedOrgs,
     setNewUser,
     setAlumniID,
     setFirstName,
@@ -142,6 +145,8 @@ function ProfilePage() {
         setEmail(doc.data().email);
         setPassword(doc.data().password);
         setPhoneNumber(doc.data().phone_number);
+        setAssociatedOrg(doc.data().associated_orgs);
+        setGradYear(doc.data().graduated_in);
         console.log('retrieved from firebase & Context saved');
       } else {
         console.log("There is no data for this user in our database");
@@ -211,10 +216,13 @@ function ProfilePage() {
         <h1>Associated Organizations</h1>
         <Grid container className={classes.root} spacing={2}>
           <Grid container justify="center" spacing={spacing}>
-            {[0, 1, 2].map((value) => (
-              <Grid key={value} item>
-                <Paper className={classes.paper} />
-              </Grid>
+            {groupLogo.filter(group => associatedOrgs.includes(group.abbreviation))
+            .map((group, key) => (
+                <Grid key={key} item>
+                  <Paper className={classes.paper}>
+                    <img width="100%" height="100%" src={group.logo}/>
+                  </Paper>
+                </Grid>
             ))}
           </Grid>
         </Grid>
