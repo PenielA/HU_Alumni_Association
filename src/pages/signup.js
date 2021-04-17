@@ -64,14 +64,16 @@ function SignupPage() {
       first_name,
       last_name,
       email,
-      password);
+      password,
+      gradYear);
     storeUserInFirebase(
       auth.currentUser.uid,
       alum_id,
       first_name,
       last_name,
       email,
-      password);
+      password,
+      gradYear);
   }
 
   const storeUserInFirebase = (userUID,alum_id,first_name,last_name,email,password,gradYear) => {
@@ -101,7 +103,8 @@ function SignupPage() {
     auth.createUserWithEmailAndPassword(emailRef.current.value, passwordRef.current.value)
     .then(userCredential => {
       // Signed in  
-      let alum_id = generateID(8);     
+      let alum_id = generateID(8);  
+      // userCredential.user.uid   
       storeUser(
         alum_id,
         firstNameRef.current.value,
