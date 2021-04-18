@@ -3,6 +3,7 @@ import profile from "./pages/profile";
 import landing from "./pages/landing";
 import login from "./pages/login";
 import signup from "./pages/signup";
+import ID from "./pages/ID";
 import UserContextProvider from './UserContext';
 import "./App.css";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
@@ -19,6 +20,7 @@ function App() {
             <Route path="/profile" component={profile} />
             <Route path="/login" component={login} />
             <Route path="/signup" component={signup} />
+            <Route path="/ID" component={ID} />
             </UserContextProvider>
           </Switch>
         </header>

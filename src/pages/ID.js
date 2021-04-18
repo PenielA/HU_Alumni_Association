@@ -12,7 +12,7 @@ import IDtemplate from "../IDtemplate.jpg";
 import QRtemplate from "../QRtemplate.jpg";
 import QRcode from "../fakeQRcode.png";
 import Avatar from "@material-ui/core/Avatar";
-import bison from "../bison.png";
+import bison from "../images/bison.png";
 import { makeStyles } from "@material-ui/core/styles";
 
 
