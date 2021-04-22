@@ -14,6 +14,9 @@ import QRcode from "../fakeQRcode.png";
 import Avatar from "@material-ui/core/Avatar";
 import bison from "../images/bison.png";
 import { makeStyles } from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
+import { Link, Redirect } from "react-router-dom";
+import { fade } from "@material-ui/core/styles/colorManipulator";
 
 
 const drawerWidth = 240;
@@ -26,6 +29,20 @@ const useStyles = makeStyles((theme) => ({
     "& > *": {
       margin: theme.spacing(6),
     },
+  },
+  Lbutton: {
+    fontSize: 19,
+    fontWeight: 800,
+    fontFamily: "Roboto",
+    height: 55,
+    width: 350,
+    color: "#FFFFFF",
+    backgroundColor: fade("#395386", 0.5),
+    "&:hover": {
+      backgroundColor: fade("#395386", 0.9),
+    },
+    borderRadius: 20,
+    margin: 5,
   },
   paper: {
     height: 200,
@@ -89,11 +106,18 @@ function IDPage() {
     <div className="centering">
     <IDCardFront align="center"/>
     </div>
+    <div>  </div>
     
       
       <h3><Member name="Name Here"/></h3>
       <h3>Membership ID: 999999999</h3>
-   
+
+    <div>
+      <Link to={{ pathname: "/profile" }} style={{ textDecoration: "none" }}>
+              <Button className={classes.Lbutton}>PROFILE</Button>
+            </Link>
+            </div>
+
   </div>
   
   );
