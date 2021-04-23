@@ -199,17 +199,6 @@ function ProfilePage() {
       });
   };
 
-  /**
-   * this function create the qrcode url that displays the users first and last name.
-   * TODO: swap user's names out for a unique Alumni ID
-   * @returns url as aa string
-   */
-  function constructQrCodeUrl() {
-    let base_url =
-      "https://api.qrserver.com/v1/create-qr-code/?size=150x150&bgcolor=0b3c61&data=";
-    return base_url + " @" + alumniID + " - " + firstName + " " + lastName;
-  }
-
   useEffect(() => {
     if (!newUser) {
       getUserDataFromFirebase(auth.currentUser.uid);
@@ -219,8 +208,18 @@ function ProfilePage() {
   async function handleSubmit(e) {
     e.preventDefault();
     updateFirebasePhoneNumber(auth.currentUser.uid, phoneNumber);
+    setPhoneNumber(phoneNumber);
     alert("Updated phone number");
   }
+
+  function changePassword(new_password){
+    auth.currentUser.updatePassword(new_password).then(function() {
+      alert('Password successfully reset')
+    }).catch(function(error) {
+      alert('Password failed to reset: ' + error);
+    });    
+  } 
+
   return (
     <div>
       <div>
@@ -303,8 +302,6 @@ function ProfilePage() {
         <Button>Sign Out</Button>
       </Link>
     </div>
-    /* <QrCode qrcode_url={constructQrCodeUrl()}/> */
-
   );
 }
 export default ProfilePage;
