@@ -22,7 +22,6 @@ export const initUserProfileFirebaseData = (
   fname,
   lname,
   email,
-  password,
   gradYear
 ) => {
   db.collection("users")
@@ -34,7 +33,6 @@ export const initUserProfileFirebaseData = (
       phone_number: "",
       graduated_in: gradYear,
       email: email,
-      password: password,
       associated_orgs: [],
     })
     .then(() => {
@@ -55,7 +53,6 @@ export const editUserProfileFirebaseData = (
   phone_number,
   graduated_in,
   email,
-  password,
   associated_orgs
 ) => {
   db.collection("users")
@@ -66,7 +63,6 @@ export const editUserProfileFirebaseData = (
       phone_number: phone_number,
       graduated_in: graduated_in,
       email: email,
-      password: password,
       associated_orgs: associated_orgs,
     })
     .then(() => {

@@ -111,7 +111,6 @@ function ProfilePage() {
     setPhoneNumber,
     setGradYear,
     setAssociatedOrg,
-    setPassword,
     logout,
   } = useContext(UserContext);
 
@@ -127,7 +126,6 @@ function ProfilePage() {
     phone_number,
     graduated_in,
     email,
-    password,
     associated_orgs
   ) {
     editUserProfileFirebaseData(
@@ -137,7 +135,6 @@ function ProfilePage() {
       phone_number,
       graduated_in,
       email,
-      password,
       associated_orgs
     );
     editUserProfileContextData(
@@ -146,7 +143,6 @@ function ProfilePage() {
       phone_number,
       graduated_in,
       email,
-      password,
       associated_orgs
     );
   }
@@ -157,7 +153,6 @@ function ProfilePage() {
     phone_number,
     graduated_in,
     email,
-    password,
     associated_orgs
   ) {
     setFirstName(fname);
@@ -165,7 +160,6 @@ function ProfilePage() {
     setPhoneNumber(phone_number);
     setGradYear(graduated_in);
     setEmail(email);
-    setPassword(password);
     setAssociatedOrg(associated_orgs);
   }
 
@@ -181,7 +175,6 @@ function ProfilePage() {
           setFirstName(doc.data().first_name);
           setLastName(doc.data().last_name);
           setEmail(doc.data().email);
-          setPassword(doc.data().password);
           setPhoneNumber(doc.data().phone_number);
           setAssociatedOrg(doc.data().associated_orgs);
           setGradYear(doc.data().graduated_in);

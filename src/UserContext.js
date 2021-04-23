@@ -8,7 +8,6 @@ let initialState = {
     email:'',
     phoneNumber:'',
     graduatedIn:'',
-    password: '',
     associatedOrgs:[],
     newUser: false,
 };
@@ -41,8 +40,6 @@ const reducer = (state, action) => {
                 ...state,
                 associatedOrgs: state.associatedOrgs.filter(org => org !== action.payload)
             }
-        case "set-password":
-            return {...state, password: action.payload };
         case "new-user-status":
         return {...state, newUser: action.payload };
         default:
@@ -110,13 +107,6 @@ const UserContextProvider = ({children}) => {
         });
     };
 
-    const setPassword = (pword) => {
-        dispatch({
-            type: "set-password",
-            payload: pword,
-        });
-    };
-
     const setNewUser = (new_user) => {
         dispatch({
             type: "new-user-status",
@@ -134,7 +124,6 @@ const UserContextProvider = ({children}) => {
             associatedOrgs: state.associatedOrgs,
             graduatedIn: state.graduatedIn,
             phoneNumber: state.phoneNumber,
-            password: state.password,
             newUser: state.newUser,
             logout,
             setAlumniID,
@@ -144,7 +133,6 @@ const UserContextProvider = ({children}) => {
             setPhoneNumber,
             setGradYear,
             setAssociatedOrg,
-            setPassword,
             setNewUser,
         }}> {children} </UserContext.Provider>
     )
