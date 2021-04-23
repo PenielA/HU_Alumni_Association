@@ -1,17 +1,10 @@
-import * as React from "react";
-import firebase from "firebase";
+import React, {useContext} from "react";
 import "firebase/auth";
-import {
-  FirebaseAuthProvider,
-  FirebaseAuthConsumer,
-  IfFirebaseAuthedAnd,
-} from "@react-firebase/auth";
-import { firebaseConfig } from "../firebaseConfig";
 import "../App.css";
-// import IDtemplate from "../IDtemplate.jpg";
-// import QRtemplate from "../QRtemplate.jpg";
 import QRcode from "../fakeQRcode.png";
 import Avatar from "@material-ui/core/Avatar";
+import {UserContext} from '../UserContext';
+import QrCode from "../components/qrcode";
 import bison from "../images/bison.png";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
@@ -47,9 +40,7 @@ const useStyles = makeStyles((theme) => ({
     height: 200,
     width: 200,
   },
-  // control: {
-  //   padding: theme.spacing(50),
-  // },
+ 
   appBarShift: {
     width: `calc(100% - ${drawerWidth}px)`,
     marginLeft: drawerWidth,
@@ -92,6 +83,26 @@ const useStyles = makeStyles((theme) => ({
 
 function IDPage() {
   const classes = useStyles();
+  const {
+    alumniID,
+    firstName,
+    lastName,
+  } = useContext(UserContext);
+
+  function IDCardFront() {
+    return (
+      <div>   
+        <QrCode qrcode_url={constructQrCodeUrl()} className="QR"/>      
+      </div>   
+    );
+  }
+
+  function constructQrCodeUrl() {
+    let base_url =
+      "https://api.qrserver.com/v1/create-qr-code/?size=150x150&bgcolor=0b3c61&data=";
+    return base_url + " @" + alumniID + " - " + firstName + " " + lastName;
+  }
+
   return (
     <div>
       <Avatar
@@ -123,13 +134,5 @@ function IDPage() {
 
 function Member(member) {
   return <h3>Member Name: {member.name}!</h3>;
-}
-
-function IDCardFront() {
-  return (
-    <div>
-      <img src={QRcode} className="QR" />
-    </div>
-  );
 }
 export default IDPage;
