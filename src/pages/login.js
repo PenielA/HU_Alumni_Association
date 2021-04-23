@@ -72,6 +72,18 @@ function LoginPage() {
       });
   };
 
+  function forgotPassword(emailAddress){
+    auth.sendPasswordResetEmail(emailAddress).then(function() {
+      alert('Password reset email sent');
+    }).catch((error) => {
+      if (error.code === "auth/invalid-email"){
+        alert('Please enter a valid email address');
+      } else if(error.code === "auth/user-not-found"){
+        alert("This user does not exist in our system");
+      }
+    });
+  }
+
   return (
     <Container component="main" maxWidth="xs">
       {loggedIn ? (
@@ -127,7 +139,7 @@ function LoginPage() {
             </Button>
             <div style={{ marginBottom: "15px" }}>
               <div>
-                <Link href="#" variant="body2">
+                <Link href="#" variant="body2" onClick={()=>forgotPassword(email)}>
                   Forgot password?
                 </Link>
               </div>

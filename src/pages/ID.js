@@ -1,7 +1,6 @@
 import React, {useContext} from "react";
 import "firebase/auth";
 import "../App.css";
-import QRcode from "../fakeQRcode.png";
 import Avatar from "@material-ui/core/Avatar";
 import {UserContext} from '../UserContext';
 import QrCode from "../components/qrcode";

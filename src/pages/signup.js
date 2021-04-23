@@ -46,7 +46,6 @@ function SignupPage() {
     setFirstName,
     setLastName,
     setEmail,
-    setPassword,
     setGradYear,
   } = useContext(UserContext);
 
@@ -63,7 +62,6 @@ function SignupPage() {
     first_name,
     last_name,
     email,
-    password,
     gradYear
   ) => {
     storeUserInContext(
@@ -72,7 +70,6 @@ function SignupPage() {
       first_name,
       last_name,
       email,
-      password,
       gradYear
     );
     storeUserInFirebase(
@@ -81,7 +78,6 @@ function SignupPage() {
       first_name,
       last_name,
       email,
-      password,
       gradYear
     );
   };
@@ -92,7 +88,6 @@ function SignupPage() {
     first_name,
     last_name,
     email,
-    password,
     gradYear
   ) => {
     initUserProfileFirebaseData(
@@ -101,7 +96,6 @@ function SignupPage() {
       first_name,
       last_name,
       email,
-      password,
       gradYear
     );
   };
@@ -112,7 +106,6 @@ function SignupPage() {
     first_name,
     last_name,
     email,
-    password,
     gradYear
   ) => {
     // Save User data in global context
@@ -121,7 +114,6 @@ function SignupPage() {
     setFirstName(first_name);
     setLastName(last_name);
     setEmail(email);
-    setPassword(password);
     setGradYear(gradYear);
   };
 
@@ -141,7 +133,6 @@ function SignupPage() {
           firstNameRef.current.value,
           lastNameRef.current.value,
           emailRef.current.value,
-          passwordRef.current.value,
           gradYearRef.current.value
         );
 
