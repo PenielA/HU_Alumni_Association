@@ -5,7 +5,6 @@ import {
   editUserProfileFirebaseData,
   updateFirebasePhoneNumber,
 } from "../firebaseConfig";
-
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
@@ -17,7 +16,6 @@ import clsx from "clsx";
 import Link from "@material-ui/core/Link";
 import { UserContext } from "../UserContext";
 import QrCode from "../components/qrcode";
-
 import Avatar from "@material-ui/core/Avatar";
 import bison from "../images/bison.png";
 import Divider from "@material-ui/core/Divider";
@@ -38,7 +36,6 @@ const useStyles = makeStyles((theme) => ({
   },
   root: {
     flexGrow: 1,
-
     justify: "center",
     display: "flex",
     "& > *": {
@@ -91,7 +88,6 @@ const useStyles = makeStyles((theme) => ({
   },
   form: {
     textAlign: "center",
-
   },
 }));
 
@@ -221,6 +217,7 @@ function ProfilePage() {
     updateFirebasePhoneNumber(auth.currentUser.uid, phoneNumber);
     alert("Updated phone number");
   }
+
   return (
     <div>
       <div>
@@ -247,7 +244,7 @@ function ProfilePage() {
           marginBottom: "20px",
         }}
       >
-        <Button type="submit" variant="contained" color="#395386">
+        <Button type="submit" variant="contained" color="#395386" href="./ID">
           MEMBERSHIP ID
         </Button>
       </div>
@@ -294,7 +291,6 @@ function ProfilePage() {
                   </Paper>
                 </Grid>
               ))}
-
           </Grid>
         </Grid>
       </div>
@@ -304,7 +300,6 @@ function ProfilePage() {
       </Link>
     </div>
     /* <QrCode qrcode_url={constructQrCodeUrl()}/> */
-
   );
 }
 export default ProfilePage;
