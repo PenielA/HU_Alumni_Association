@@ -1,5 +1,7 @@
-import React, {useRef, useState} from "react";
-import bison from "../bison.png";
+import React, { useState } from "react";
+import { auth } from "../firebaseConfig";
+import { Redirect } from "react-router-dom";
+import bison from "../images/bison.png";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
@@ -7,11 +9,8 @@ import Checkbox from "@material-ui/core/Checkbox";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-import {makeStyles} from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import { Redirect } from "react-router-dom";
-import "firebase/auth";
-import { auth } from "../firebaseConfig";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -33,38 +32,52 @@ const useStyles = makeStyles((theme) => ({
 
 function LoginPage() {
   const classes = useStyles();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
 
-  const emailRef = useRef(null)
-  const passwordRef = useRef(null)
-  const [loggedIn, setLoggedIn] = useState(false)
+  const isInvalid = password === "" || email === "" || password.length < 6;
 
-  const login = e => {
+  const login = (e) => {
     e.preventDefault();
-    auth.signInWithEmailAndPassword(
-        emailRef.current.value,
-        passwordRef.current.value
-    ).then(user => {
-        console.log(user)
-        setLoggedIn(true)
-        console.log('Welcome back fellow Bison, we love you')
-    }).catch(err => {
-        setLoggedIn(false)
-        console.log(err)
-        if (err.code === 'auth/wrong-password'){
-          console.log('Your password is wrong')
-        }else if(err.code === 'auth/user-not-found'){
-          console.log('This account does not exist')
+
+    if (email === "") setEmailError("Must not be empty");
+    else setEmailError("");
+
+    if (password === "") {
+      setPasswordError("Must not be empty");
+    } else if (password.length < 6) {
+      //default firebase auth password length is 6.
+      //By default, anything less than 6 is incorrect.
+      setPasswordError("Incorrect password");
+    } else setPasswordError("");
+
+    if (isInvalid) return;
+
+    auth
+      .signInWithEmailAndPassword(email, password)
+      .then((user) => {
+        setLoggedIn(true);
+        console.log("Welcome back fellow Bison, we love you");
+      })
+      .catch((err) => {
+        setLoggedIn(false);
+        console.log(err);
+        if (err.code === "auth/wrong-password") {
+          setPasswordError("Incorrect password");
+        } else if (err.code === "auth/user-not-found") {
+          alert("This account does not exist");
         }
-        
-    })
-  }
+      });
+  };
 
   return (
     <Container component="main" maxWidth="xs">
-      {
-        loggedIn?
-          <Redirect to="/profile"/>
-        :
+      {loggedIn ? (
+        <Redirect to="/profile" />
+      ) : (
         <div className={classes.paper}>
           <img src={bison} alt="bison logo" />
           <Typography component="h1" variant="h5">
@@ -75,25 +88,29 @@ function LoginPage() {
               variant="outlined"
               margin="normal"
               required
-              inputRef={emailRef}
               fullWidth
+              error={emailError ? true : false}
+              helperText={emailError}
               id="email"
               label="Email Address"
               name="email"
               autoComplete="email"
               autoFocus
+              onChange={(event) => setEmail(event.target.value)}
             />
             <TextField
               variant="outlined"
               margin="normal"
               required
-              inputRef={passwordRef}
               fullWidth
+              helperText={passwordError}
+              error={passwordError ? true : false}
               name="password"
               label="Password"
               type="password"
               id="password"
               autoComplete="current-password"
+              onChange={(event) => setPassword(event.target.value)}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
@@ -109,23 +126,21 @@ function LoginPage() {
             >
               LOGIN
             </Button>
-            <div margin="50000px">
-              <Grid container>
-                <Grid item xs>
-                  <Link href="#" variant="body2">
-                    Forgot password?
-                  </Link>
-                </Grid>
-                <Grid item>
-                  <Link href="./signup" variant="body2">
-                    {"Don't have an account? Sign Up"}
-                  </Link>
-                </Grid>
+            <Grid container>
+              <Grid item xs>
+                <Link href="#" variant="body2">
+                  Forgot password?
+                </Link>
               </Grid>
-            </div>
+              <Grid item>
+                <Link href="./signup" variant="body2">
+                  {"Don't have an account? Sign Up"}
+                </Link>
+              </Grid>
+            </Grid>
           </form>
         </div>
-      }
+      )}
     </Container>
   );
 }

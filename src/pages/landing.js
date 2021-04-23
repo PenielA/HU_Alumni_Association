@@ -1,6 +1,6 @@
 import React, {useState, useEffect}from "react";
 import "firebase/auth";
-import bison from "../bison.png";
+import bison from "../images/bison.png";
 import "../App.css";
 import { Link, Redirect } from "react-router-dom";
 import Button from "@material-ui/core/Button";
