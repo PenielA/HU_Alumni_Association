@@ -275,6 +275,15 @@ function ProfilePage() {
             <ListItemText> {phoneNumber} </ListItemText>
           </ListItem>
         </List> */}
+      <div
+        style={{
+          marginBottom: "20px",
+        }}
+      >
+        <Button type="submit" variant="contained" color="#395386">
+          MEMBERSHIP ID
+        </Button>
+      </div>
       <div style={{ textAlign: "center" }}>
         <form noValidate autoComplete="off" onSubmit={handleSubmit}>
           <TextField
@@ -304,16 +313,6 @@ function ProfilePage() {
             Update{" "}
           </Button>
         </form>
-      </div>
-
-      <div
-        style={{
-          marginBottom: "20px",
-        }}
-      >
-        <Button type="submit" variant="contained" color="#395386">
-          MEMBERSHIP ID
-        </Button>
       </div>
       <div>
         <h1>Associated Organizations</h1>

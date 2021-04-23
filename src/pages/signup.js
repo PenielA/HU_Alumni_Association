@@ -11,11 +11,10 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import {UserContext} from '../UserContext';
+import { UserContext } from "../UserContext";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    marginTop: theme.spacing(8),
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -25,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(3),
   },
   submit: {
-    margin: theme.spacing(3, 0, 2),
+    margin: theme.spacing(0, 0, 2),
     backgroundColor: "#395386",
     color: "white",
   },
@@ -39,7 +38,7 @@ function SignupPage() {
   const [signedUp, setSignedUp] = useState(false);
   const firstNameRef = useRef(null);
   const lastNameRef = useRef(null);
-  
+
   const {
     setNewUser,
     setAlumniID,
@@ -51,13 +50,21 @@ function SignupPage() {
   } = useContext(UserContext);
 
   const generateID = (length) => {
-    let chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    let result = '';
-    for (let i = length; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
+    let chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    let result = "";
+    for (let i = length; i > 0; --i)
+      result += chars[Math.floor(Math.random() * chars.length)];
     return result;
-  }
+  };
 
-  const storeUser = (alum_id,first_name,last_name,email,password,gradYear) => {
+  const storeUser = (
+    alum_id,
+    first_name,
+    last_name,
+    email,
+    password,
+    gradYear
+  ) => {
     storeUserInContext(
       true,
       alum_id,
@@ -65,7 +72,8 @@ function SignupPage() {
       last_name,
       email,
       password,
-      gradYear);
+      gradYear
+    );
     storeUserInFirebase(
       auth.currentUser.uid,
       alum_id,
@@ -73,10 +81,19 @@ function SignupPage() {
       last_name,
       email,
       password,
-      gradYear);
-  }
+      gradYear
+    );
+  };
 
-  const storeUserInFirebase = (userUID,alum_id,first_name,last_name,email,password,gradYear) => {
+  const storeUserInFirebase = (
+    userUID,
+    alum_id,
+    first_name,
+    last_name,
+    email,
+    password,
+    gradYear
+  ) => {
     initUserProfileFirebaseData(
       userUID,
       alum_id,
@@ -84,10 +101,19 @@ function SignupPage() {
       last_name,
       email,
       password,
-      gradYear);
-  }
+      gradYear
+    );
+  };
 
-  const storeUserInContext = (status,alum_id,first_name,last_name,email,password,gradYear) => {
+  const storeUserInContext = (
+    status,
+    alum_id,
+    first_name,
+    last_name,
+    email,
+    password,
+    gradYear
+  ) => {
     // Save User data in global context
     setNewUser(status);
     setAlumniID(alum_id);
@@ -96,32 +122,36 @@ function SignupPage() {
     setEmail(email);
     setPassword(password);
     setGradYear(gradYear);
-  }
+  };
 
   const signUp = (e) => {
     e.preventDefault();
-    auth.createUserWithEmailAndPassword(emailRef.current.value, passwordRef.current.value)
-    .then(userCredential => {
-      // Signed in  
-      let alum_id = generateID(8);  
-      // userCredential.user.uid   
-      storeUser(
-        alum_id,
-        firstNameRef.current.value,
-        lastNameRef.current.value,
+    auth
+      .createUserWithEmailAndPassword(
         emailRef.current.value,
-        passwordRef.current.value,
-        gradYearRef.current.value);
-  
-      setSignedUp(true);
+        passwordRef.current.value
+      )
+      .then((userCredential) => {
+        // Signed in
+        let alum_id = generateID(8);
+        // userCredential.user.uid
+        storeUser(
+          alum_id,
+          firstNameRef.current.value,
+          lastNameRef.current.value,
+          emailRef.current.value,
+          passwordRef.current.value,
+          gradYearRef.current.value
+        );
 
-    })
-    .catch((error) => {
-      setSignedUp(false)
-      var errorMessage = error.message;
-      console.log(errorMessage);
-    });
-  }
+        setSignedUp(true);
+      })
+      .catch((error) => {
+        setSignedUp(false);
+        var errorMessage = error.message;
+        console.log(errorMessage);
+      });
+  };
 
   return (
     <Container component="main" maxWidth="xs">
@@ -210,13 +240,11 @@ function SignupPage() {
             >
               Sign Up
             </Button>
-            <Grid container justify="flex-end">
-              <Grid item>
-                <Link href="./login" variant="body2">
-                  Already have an account? Sign in
-                </Link>
-              </Grid>
-            </Grid>
+            <div style={{ marginBottom: "15px" }}>
+              <Link href="./login" variant="body2">
+                Already have an account? Sign in
+              </Link>
+            </div>
           </form>
         </div>
       )}

@@ -14,7 +14,6 @@ import Container from "@material-ui/core/Container";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    marginTop: theme.spacing(8),
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -24,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(1),
   },
   submit: {
-    margin: theme.spacing(3, 0, 2),
+    margin: theme.spacing(0, 0, 2),
     backgroundColor: "#395386",
     color: "white",
   },
@@ -126,18 +125,16 @@ function LoginPage() {
             >
               LOGIN
             </Button>
-            <Grid container>
-              <Grid item xs>
+            <div style={{ marginBottom: "15px" }}>
+              <div>
                 <Link href="#" variant="body2">
                   Forgot password?
                 </Link>
-              </Grid>
-              <Grid item>
-                <Link href="./signup" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
-            </Grid>
+              </div>
+              <Link href="./signup" variant="body2">
+                {"Don't have an account? Sign Up"}
+              </Link>
+            </div>
           </form>
         </div>
       )}
