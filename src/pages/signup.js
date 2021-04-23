@@ -13,7 +13,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { UserContext } from "../UserContext";
 
-
 const useStyles = makeStyles((theme) => ({
   paper: {
     display: "flex",
@@ -145,7 +144,6 @@ function SignupPage() {
       });
   };
 
-
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -223,16 +221,18 @@ function SignupPage() {
                 />
               </Grid>
             </Grid>
-            <Button
-              type="submit"
-              fullWidth
-              onClick={signUp}
-              variant="contained"
-              color="#395386"
-              className={classes.submit}
-            >
-              Sign Up
-            </Button>
+            <div style={{ marginTop: "15px" }}>
+              <Button
+                type="submit"
+                fullWidth
+                onClick={signUp}
+                variant="contained"
+                color="#395386"
+                className={classes.submit}
+              >
+                Sign Up
+              </Button>
+            </div>
             <div style={{ marginBottom: "15px" }}>
               <Link href="./login" variant="body2">
                 Already have an account? Sign in
