@@ -10,12 +10,12 @@ import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Toolbar from "@material-ui/core/Toolbar";
-import { groupLogo } from "../components/groupLogo.js";
+import { groupLogo } from '../components/groupLogo.js';
 import MenuIcon from "@material-ui/icons/Menu";
 import clsx from "clsx";
 import Link from "@material-ui/core/Link";
-import { UserContext } from "../UserContext";
-import QrCode from "../components/qrcode";
+import {UserContext} from '../UserContext';
+import QrCode from '../components/qrcode';
 import Avatar from "@material-ui/core/Avatar";
 import bison from "../images/bison.png";
 import Divider from "@material-ui/core/Divider";
@@ -36,6 +36,12 @@ const useStyles = makeStyles((theme) => ({
   },
   root: {
     flexGrow: 1,
+
+const drawerWidth = 240;
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    // flexGrow: 1,
     justify: "center",
     display: "flex",
     "& > *": {
@@ -88,6 +94,11 @@ const useStyles = makeStyles((theme) => ({
   },
   form: {
     textAlign: "center",
+    marginLeft: 200,
+    "& > *": {
+      margin: theme.spacing(8),
+    },
+    marginTop: 50,
   },
 }));
 
@@ -170,14 +181,6 @@ function ProfilePage() {
     password,
     associated_orgs
   ) {
-    setFirstName(fname);
-    setLastName(lname);
-    setPhoneNumber(phone_number);
-    setGradYear(graduated_in);
-    setEmail(email);
-    setPassword(password);
-    setAssociatedOrg(associated_orgs);
-  }
 
   const getUserDataFromFirebase = async (userUID) => {
     setNewUser(false);
@@ -227,6 +230,44 @@ function ProfilePage() {
     updateFirebasePhoneNumber(auth.currentUser.uid, phoneNumber);
     alert("Updated phone number");
   }
+    
+    let docRef = db.collection("users").doc(userUID);
+    docRef.get().then((doc) => {
+      if (doc.exists) {
+        setAlumniID(doc.data().alumni_id);
+        setFirstName(doc.data().first_name);
+        setLastName(doc.data().last_name);
+        setEmail(doc.data().email);
+        setPassword(doc.data().password);
+        setPhoneNumber(doc.data().phone_number);
+        setAssociatedOrg(doc.data().associated_orgs);
+        setGradYear(doc.data().graduated_in);
+        console.log('retrieved from firebase & Context saved');
+      } else {
+        console.log("There is no data for this user in our database");
+      }
+    }).catch((error) => {
+        console.log("Error getting document:", error);
+    });
+  }
+
+  /**
+   * this function create the qrcode url that displays the users first and last name.
+   * TODO: swap user's names out for a unique Alumni ID
+   * @returns url as aa string
+   */
+   function constructQrCodeUrl(){
+    let base_url = 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&bgcolor=0b3c61&data='
+    return base_url + ' @' + alumniID + ' - ' + firstName + ' ' + lastName;
+  }
+
+  
+
+  useEffect(() => {
+    if (!newUser){
+      getUserDataFromFirebase(auth.currentUser.uid);
+    }   
+  }, []);
 
   return (
     <div>
@@ -267,6 +308,29 @@ function ProfilePage() {
           </ListItem>
           <ListItem button>
             <EmailOutlinedIcon style={{ paddingRight: "5px" }} />
+
+      <div className={classes.root1}>
+        <Avatar
+          alt="Remy Sharp"
+          src={bison}
+          className={classes.large}
+          style={{ height: "90px", width: "90px" }}
+        />
+
+        <div>
+          <MenuIcon />
+          <Button href="#" size="small" className={classes.margin}>
+            EDIT
+          </Button>
+        </div>
+
+
+        <List component="nav" aria-label="mailbox folders">
+          <ListItem button divider>
+            <ListItemText>{firstName} {lastName} (@{alumniID})</ListItemText>
+          </ListItem>
+          <ListItem button>
+            <EmailOutlinedIcon />
             <ListItemText> {email} </ListItemText>
           </ListItem>
           <Divider light />
@@ -315,10 +379,14 @@ function ProfilePage() {
           MEMBERSHIP ID
         </Button>
       </div>
+        </List>
+      </div>
+      
       <div>
         <h1>Associated Organizations</h1>
         <Grid container className={classes.root} spacing={2}>
           <Grid container justify="center" spacing={spacing}>
+
             {groupLogo
               .filter((group) => associatedOrgs.includes(group.abbreviation))
               .map((group, key) => (
@@ -328,10 +396,17 @@ function ProfilePage() {
                   </Paper>
                 </Grid>
               ))}
+            {groupLogo.filter(group => associatedOrgs.includes(group.abbreviation))
+            .map((group, key) => (
+                <Grid key={key} item>
+                  <Paper className={classes.paper}>
+                    <img width="100%" height="100%" src={group.logo}/>
+                  </Paper>
+                </Grid>
+            ))}
           </Grid>
         </Grid>
       </div>
-
       <Link href="/" onClick={signOut} style={{ textDecoration: "none" }}>
         <Button>Sign Out</Button>
       </Link>

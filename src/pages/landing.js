@@ -68,7 +68,7 @@ function Landing() {
              <h1>HOWARD UNIVERSITY ALUMNI</h1>
             <img src={bison} className="App-logo" alt="logo" />
 
-            <Link to={{ pathname: "/login" }} style={{ textDecoration: "none" }}>
+            <Link to={{ pathname: "/ID" }} style={{ textDecoration: "none" }}>
               <Button className={classes.Lbutton}>LOGIN</Button>
             </Link>
             
