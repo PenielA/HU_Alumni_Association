@@ -11,7 +11,6 @@ import Button from "@material-ui/core/Button";
 import { Link, Redirect } from "react-router-dom";
 import { fade } from "@material-ui/core/styles/colorManipulator";
 
-
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -107,38 +106,33 @@ function IDPage() {
   return (
     <div>
       <Avatar
-            alt="Remy Sharp"
-            src={bison}
-            className={classes.large}
-            style={{ height: "90px", width: "90px" }}
-          />
-    <h1>Howard University Alumni Member </h1>
-  
-    <div className="centering">
-    <IDCardFront align="center"/>
-    </div>
-    <div>  </div>
-    
-      
-      <h3><Member name="Name Here"/></h3>
+        alt="Remy Sharp"
+        src={bison}
+        className={classes.large}
+        style={{ height: "90px", width: "90px" }}
+      />
+      <h1>Howard University Alumni Member </h1>
+
+      <div className="centering">
+        <IDCardFront align="center" />
+      </div>
+      <div> </div>
+
+      <h3>
+        <Member name="Name Here" />
+      </h3>
       <h3>Membership ID: 999999999</h3>
 
-    <div>
-      <Link to={{ pathname: "/profile" }} style={{ textDecoration: "none" }}>
-              <Button className={classes.Lbutton}>PROFILE</Button>
-            </Link>
-            </div>
-
-  </div>
-  
+      <div>
+        <Link to={{ pathname: "/profile" }} style={{ textDecoration: "none" }}>
+          <Button className={classes.Lbutton}>PROFILE</Button>
+        </Link>
+      </div>
+    </div>
   );
 }
 
-function Member(member){
-  return (
-        <h3>Member Name: {member.name}!</h3>
-  );
+function Member(member) {
+  return <h3>Member Name: {member.name}!</h3>;
 }
-
-
 export default IDPage;
