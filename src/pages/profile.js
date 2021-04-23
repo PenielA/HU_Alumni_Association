@@ -5,6 +5,7 @@ import {
   editUserProfileFirebaseData,
   updateFirebasePhoneNumber,
 } from "../firebaseConfig";
+
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
@@ -16,6 +17,7 @@ import clsx from "clsx";
 import Link from "@material-ui/core/Link";
 import { UserContext } from "../UserContext";
 import QrCode from "../components/qrcode";
+
 import Avatar from "@material-ui/core/Avatar";
 import bison from "../images/bison.png";
 import Divider from "@material-ui/core/Divider";
@@ -36,6 +38,7 @@ const useStyles = makeStyles((theme) => ({
   },
   root: {
     flexGrow: 1,
+
     justify: "center",
     display: "flex",
     "& > *": {
@@ -88,6 +91,7 @@ const useStyles = makeStyles((theme) => ({
   },
   form: {
     textAlign: "center",
+
   },
 }));
 
@@ -114,16 +118,6 @@ function ProfilePage() {
     setPassword,
     logout,
   } = useContext(UserContext);
-
-  // const [open, setOpen] = React.useState(false);
-
-  // const handleDrawerOpen = () => {
-  //   setOpen(true);
-  // };
-
-  // const handleDrawerClose = () => {
-  //   setOpen(false);
-  // };
 
   function signOut() {
     auth.signOut();
@@ -227,20 +221,8 @@ function ProfilePage() {
     updateFirebasePhoneNumber(auth.currentUser.uid, phoneNumber);
     alert("Updated phone number");
   }
-
   return (
     <div>
-      {/* <Toolbar>
-        <IconButton
-          color="inherit"
-          aria-label="open drawer"
-          onClick={handleDrawerOpen}
-          edge="start"
-          className={clsx(classes.menuButton, open && classes.hide)}
-        />
-        <MenuIcon />
-      </Toolbar> */}
-
       <div>
         <center>
           <Avatar
@@ -260,21 +242,6 @@ function ProfilePage() {
         </h1>
         <h6>@{alumniID}</h6>
       </div>
-
-      {/* <List component="nav" aria-label="mailbox folders">
-          <ListItem button divider>
-            <ListItemText>@{alumniID}</ListItemText>
-          </ListItem>
-          <ListItem button>
-            <EmailOutlinedIcon style={{ paddingRight: "5px" }} />
-            <ListItemText> {email} </ListItemText>
-          </ListItem>
-          <Divider light />
-          <ListItem button>
-            <PhoneIcon />
-            <ListItemText> {phoneNumber} </ListItemText>
-          </ListItem>
-        </List> */}
       <div
         style={{
           marginBottom: "20px",
@@ -327,6 +294,7 @@ function ProfilePage() {
                   </Paper>
                 </Grid>
               ))}
+
           </Grid>
         </Grid>
       </div>
@@ -336,6 +304,7 @@ function ProfilePage() {
       </Link>
     </div>
     /* <QrCode qrcode_url={constructQrCodeUrl()}/> */
+
   );
 }
 export default ProfilePage;

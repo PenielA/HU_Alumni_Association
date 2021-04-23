@@ -13,6 +13,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { UserContext } from "../UserContext";
 
+
 const useStyles = makeStyles((theme) => ({
   paper: {
     display: "flex",
@@ -152,6 +153,7 @@ function SignupPage() {
         console.log(errorMessage);
       });
   };
+
 
   return (
     <Container component="main" maxWidth="xs">
